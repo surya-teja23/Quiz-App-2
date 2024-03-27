@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, Navigate } from "react-router-dom";
+import Homepage from "./components/QuizSetup/Homepage";
+import Navbar from "./components/Navbar/Navbar";
+import Instructions from "./components/QuizSetup/Instructions";
+import QuizConfiguration from "./components/QuizSetup/QuizConfiguration";
+import Question from "./components/Question/Question";
+import ScoreCard from "./components/ScoreCard/ScoreCard";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navbar />}>
+        <Route
+          index
+          element={
+            <ProtectedRoute>
+              <Homepage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="instructions"
+          element={
+            <ProtectedRoute>
+              <Instructions />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="quiz-configuration"
+          element={
+            <ProtectedRoute>
+              <QuizConfiguration />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="question/:id"
+          element={
+            <ProtectedRoute>
+              <Question />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="score-card"
+          element={
+            <ProtectedRoute>
+              <ScoreCard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Route>
+    </Routes>
   );
-}
+};
 
 export default App;
